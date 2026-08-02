@@ -1,0 +1,35 @@
+<h1>予約フォーム</h1>
+
+<%= form_with url: confirm_reservations_path(room_id: @room.id), method: :post, local: true do |f| %>
+  <% if @reservation.errors.any? %>
+    <div>
+      <h2><%= pluralize(@reservation.errors.count, "件") %>のエラーが発生しました。</h2>
+      <ul>
+        <% @reservation.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :reservation_checkin_at, "チェックイン日" %>
+    <%= f.date_field "reservation[checkin_at]" %>
+  </div>
+
+  <div>
+    <%= f.label :reservation_checkout_at, "チェックアウト日" %>
+    <%= f.date_field "reservation[checkout_at]" %>
+  </div>
+
+  <div>
+    <%= f.label :reservation_guest_count, "人数" %>
+    <%= f.number_field "reservation[guest_count]", min: 1 %>
+  </div>
+
+  <div>
+    <%= f.submit "確認する" %>
+  </div>
+<% end %>
+
+<%= link_to "戻る", request.referer || root_path %>

@@ -1,0 +1,37 @@
+<h1>予約確認</h1>
+
+<table>
+  <tr>
+    <th>施設名</th>
+    <td><%= @room.name %></td>
+  </tr>
+  <tr>
+    <th>チェックイン日</th>
+    <td><%= @reservation.checkin_at.strftime("%Y/%m/%d") %></td>
+  </tr>
+  <tr>
+    <th>チェックアウト日</th>
+    <td><%= @reservation.checkout_at.strftime("%Y/%m/%d") %></td>
+  </tr>
+  <tr>
+    <th>宿泊日数</th>
+    <td><%= @nights %>泊</td>
+  </tr>
+  <tr>
+    <th>人数</th>
+    <td><%= @reservation.guest_count %>人</td>
+  </tr>
+  <tr>
+    <th>支払い金額</th>
+    <td><%= number_to_currency(@total_price, unit: "¥", precision: 0) %></td>
+  </tr>
+</table>
+
+<%= form_with url: reservations_path(room_id: @room.id), method: :post, local: true do |f| %>
+  <%= hidden_field_tag "reservation[checkin_at]", @reservation.checkin_at %>
+  <%= hidden_field_tag "reservation[checkout_at]", @reservation.checkout_at %>
+  <%= hidden_field_tag "reservation[guest_count]", @reservation.guest_count %>
+  <%= f.submit "この内容で予約を確定する" %>
+<% end %>
+
+<%= link_to "内容を修正する", new_reservation_path(room_id: @room.id) %>
