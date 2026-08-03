@@ -1,12 +1,12 @@
 class RoomsController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :search]
+  before_action :authenticate_user!, except: [ :show, :search ]
 
   def index
     @rooms = current_user.rooms.order(created_at: :desc)
   end
 
   def show
-    @room = Room.find(params[:id])
+    @room = Room.find(params[ :id ])
   end
 
   def new
@@ -19,7 +19,7 @@ class RoomsController < ApplicationController
     if @room.save
       redirect_to @room, notice: "施設を登録しました。"
     else
-      flash.now[:alert] = "施設の登録に失敗しました。"
+      flash.now[ :alert ] = "施設の登録に失敗しました。"
       render :new, status: :unprocessable_entity
     end
   end
@@ -27,12 +27,12 @@ class RoomsController < ApplicationController
   def search
     @rooms = Room.all
 
-    if params[:area].present?
-      @rooms = @rooms.where("address LIKE ?", "%#{params[:area]}%")
+    if params[ :area ].present?
+      @rooms = @rooms.where("address LIKE ?", "%#{params[ :area ]}%")
     end
 
-    if params[:keyword].present?
-      @rooms = @rooms.where("name LIKE :kw OR description LIKE :kw", kw: "%#{params[:keyword]}%")
+    if params[ :keyword ].present?
+      @rooms = @rooms.where("name LIKE :kw OR description LIKE :kw", kw: "%#{params[ :keyword ]}%")
     end
 
     @rooms_count = @rooms.count
