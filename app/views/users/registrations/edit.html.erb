@@ -1,0 +1,40 @@
+<h1>アカウント編集</h1>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <% if resource.errors.any? %>
+    <div>
+      <h2><%= pluralize(resource.errors.count, "件") %>のエラーが発生しました。</h2>
+      <ul>
+        <% resource.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :email, "メールアドレス" %>
+    <%= f.email_field :email, autofocus: true %>
+  </div>
+
+  <div>
+    <%= f.label :password, "新しいパスワード（変更しない場合は空欄）" %>
+    <%= f.password_field :password %>
+  </div>
+
+  <div>
+    <%= f.label :password_confirmation, "確認用パスワード" %>
+    <%= f.password_field :password_confirmation %>
+  </div>
+
+  <div>
+    <%= f.label :current_password, "現在のパスワード（確認のため）" %>
+    <%= f.password_field :current_password %>
+  </div>
+
+  <div>
+    <%= f.submit "更新する" %>
+  </div>
+<% end %>
+
+<%= link_to "戻る", account_path %>

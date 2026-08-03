@@ -1,0 +1,27 @@
+<header>
+  <%= link_to "BookingApp", root_path %>
+
+  <% if user_signed_in? %>
+    <details>
+      <summary>
+        <% if current_user.icon.attached? %>
+          <%= image_tag current_user.icon, class: "header-icon" %>
+        <% else %>
+          <%= image_tag "default_icon.png", class: "header-icon" %>
+        <% end %>
+        <%= current_user.name %>
+      </summary>
+      <ul>
+        <li><%= link_to "施設一覧", rooms_path %></li>
+        <li><%= link_to "施設登録", new_room_path %></li>
+        <li><%= link_to "予約一覧", reservations_path %></li>
+        <li><%= link_to "アカウント", account_path %></li>
+        <li><%= link_to "プロフィール編集", edit_profile_path %></li>
+        <li><%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete } %></li>
+      </ul>
+    </details>
+  <% else %>
+    <%= link_to "ログイン", new_user_session_path %>
+    <%= link_to "新規登録", new_user_registration_path %>
+  <% end %>
+</header>

@@ -1,0 +1,38 @@
+<h1>予約一覧</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>画像</th>
+      <th>施設名</th>
+      <th>紹介文</th>
+      <th>合計料金</th>
+      <th>チェックイン日</th>
+      <th>チェックアウト日</th>
+      <th>予約確定日時</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @reservations.each do |reservation| %>
+      <% nights = (reservation.checkout_at - reservation.checkin_at).to_i %>
+      <% total_price = reservation.room.price * nights * reservation.guest_count %>
+      <tr>
+        <td>
+          <% if reservation.room.image.attached? %>
+            <%= image_tag reservation.room.image, size: "80x80" %>
+          <% else %>
+            <%= image_tag "default_room.png", size: "80x80" %>
+          <% end %>
+        </td>
+        <td><%= link_to reservation.room.name, room_path(reservation.room) %></td>
+        <td><%= reservation.room.description %></td>
+        <td><%= number_to_currency(total_price, unit: "¥", precision: 0) %></td>
+        <td><%= reservation.checkin_at.strftime("%Y/%m/%d") %></td>
+        <td><%= reservation.checkout_at.strftime("%Y/%m/%d") %></td>
+        <td><%= reservation.created_at.strftime("%Y/%m/%d %H:%M") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "施設を検索する", search_rooms_path %>

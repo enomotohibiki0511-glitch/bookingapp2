@@ -1,0 +1,40 @@
+<h1>プロフィール編集</h1>
+
+<%= form_with model: @user, url: profile_path, method: :patch, local: true do |f| %>
+  <% if @user.errors.any? %>
+    <div>
+      <h2><%= pluralize(@user.errors.count, "件") %>のエラーが発生しました。</h2>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <% if @user.icon.attached? %>
+      <%= image_tag @user.icon, class: "profile-icon-preview" %>
+    <% else %>
+      <%= image_tag "default_icon.png", class: "profile-icon-preview" %>
+    <% end %>
+    <%= f.label :icon, "アイコン画像" %>
+    <%= f.file_field :icon %>
+  </div>
+
+  <div>
+    <%= f.label :name, "名前" %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :introduction, "自己紹介" %>
+    <%= f.text_area :introduction %>
+  </div>
+
+  <div>
+    <%= f.submit "更新する" %>
+  </div>
+<% end %>
+
+<%= link_to "戻る", account_path %>
